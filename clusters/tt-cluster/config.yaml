@@ -1,0 +1,24 @@
+---
+
+# http://www.davidc.net/sites/default/subnets/subnets.html?network=10.101.0.0&mask=19&division=17.f9900
+environment_type: dev
+
+terraform_vars:
+  aws_region: 'us-east-1'
+  aws_account_id: 22
+  aws_profile: 'tt-dev'
+
+configurations:
+  vpc:
+    cidr: "10.101.0.0/19"
+    generic_pub_subnet: "10.101.0.0/24"
+    generic_priv_subnet: "10.101.1.0/24"
+    tags:
+      k1: 'v1'
+      k2: 'v2'
+      Name: 'obie_vpc'
+  eks:
+    depends_on: ["vpc"]
+    ssh_key_name: "tt-hackathon"
+    public_cidr: ["10.101.2.0/26", "10.101.2.64/26", "10.101.2.128/26"]
+    private_cidr: ["10.101.3.0/24", "10.101.4.0/24", "10.101.5.0/24"]
